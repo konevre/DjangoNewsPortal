@@ -1,0 +1,124 @@
+1. Создать двух пользователей 
+
+    u1 = User.objects.create_user(username="Roman")
+    u2 = User.objects.create_user(username="Maxim")
+
+2. Создать два автора
+    
+    Author.objects.create(user=u1)
+    Author.objects.create(user=u2)
+
+3. Добавить 4 категории
+    
+    Category.objects.create(category_name="Anime")
+    Category.objects.create(category_name="IT")
+    Category.objects.create(category_name="Business")
+    Category.objects.create(category_name="Computer Science")
+
+4. Добавить 2 статьи и 1 новость
+    
+    a1 = Author.objects.get(id=1)
+    a2 = Author.objects.get(id=2)
+
+    Post.objects.create(author=a1, post_type="AR", title="First Title", text="First Text")
+    Post.objects.create(author=a1, post_type="NE", title="Second Title", text="Second Text")
+    Post.objects.create(author=a2, post_type="AR", title="First Title", text="First Text")
+
+5. Присвоить им категории (мин. 2)
+
+    Post.objects.get(id=1).post_category.add(Category.objects.get(id=1))
+    Post.objects.get(id=1).post_category.add(Category.objects.get(id=2))
+    Post.objects.get(id=2).post_category.add(Category.objects.get(id=2))
+    Post.objects.get(id=2).post_category.add(Category.objects.get(id=3))
+    Post.objects.get(id=3).post_category.add(Category.objects.get(id=3))
+    Post.objects.get(id=3).post_category.add(Category.objects.get(id=4))
+
+6. Написать к постам 4 комментария (мин. 1)
+    
+    Comment.objects.create(
+        post=Post.objects.get(id=1),
+        user=User.objects.get(id=2),
+        text_comment="Congratulations!")
+
+    Comment.objects.create(
+        post=Post.objects.get(id=2),
+        user=User.objects.get(id=2),
+        text_comment="Attaboy!")
+
+    Comment.objects.create(
+        post=Post.objects.get(id=3),
+        user=User.objects.get(id=1),
+        text_comment="Too bad!")
+
+    Comment.objects.create(
+        post=Post.objects.get(id=4),
+        user=User.objects.get(id=1),
+        text_comment="Newbie!")
+
+7. Использовать like() и dislike() к постам и комментариям
+
+    Comment.objects.get(id=1).like()
+    Comment.objects.get(id=1).like()
+    Comment.objects.get(id=1).like()
+    Post.objects.get(id=1).like()
+
+    Comment.objects.get(id=2).dislike()
+    Comment.objects.get(id=2).dislike()
+    Comment.objects.get(id=2).dislike()
+    Post.objects.get(id=2).dislike()
+
+    Comment.objects.get(id=3).dislike()
+    Post.objects.get(id=3).like()
+
+    Comment.objects.get(id=4).like()
+    Post.objects.get(id=4).dislike()
+
+8. Обновить рейтинг пользователей 
+    
+    User.objects.get(id=1).author.update_rating()
+    User.objects.get(id=2).author.update_rating()
+
+
+9. Вывести имя лучшего пользователя и его рейтинг 
+
+    for item in Author.objects.order_by("-author_rating")[:1]:
+        item.user.username
+        item.author_rating
+
+10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье
+
+    for item in Post.objects.order_by("-post_rating")[:1]
+        item.date_posted
+        item.author.user.username
+        item.post_rating
+        item.title
+        item.preview()
+
+
+11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+    
+    post = Post.objects.order_by("-post_rating").first()
+
+    for item in Comment.objects.filter(post=post):
+        item.date_posted
+        item.user.username
+        item.comment_rating
+        item.text_comment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

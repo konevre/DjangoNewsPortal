@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+All Posts
+{% endblock title %}
+
+{% block content %}
+    <h3 class="card-title h4">
+        <i>
+            Currently there are {{ posts|length }} posts available:
+        </i>
+    </h3>
+    {% if posts %}
+        {% for post in posts %}
+        <!-- Blog post-->
+        <br>
+        <div class="card mb-4">
+            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+            <div class="card-body">
+                <div class="small text-muted">{{ post.date_posted|date:"d.m.Y" }}</div>
+                <h2 class="card-title h4">{{ post.title|profanity }}</h2>
+                <p class="card-text"> {{ post.text|truncatewords:50|profanity  }}</p>
+                <a class="btn btn-primary" href="#!">Read more →</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
